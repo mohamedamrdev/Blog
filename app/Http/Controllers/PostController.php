@@ -27,6 +27,11 @@ class PostController extends Controller
 
     public function store(Request $requestpost){
         $data = $requestpost->all();
+        $requestpost->validate([
+            'title' => 'required',
+            'description' => 'required',
+            'user_id' => 'required'
+        ]);
         Post::create($data);
         return to_route('posts.index');
     }
@@ -42,17 +47,28 @@ class PostController extends Controller
     public function edit($post){
         $post = Post::find($post);
         return view('posts.edit',[
-            'post' => $post
+            'post' => $post,
+            'users' => User::all()
         ]);
     }
-    public function update(){
+    public function update(Request $request, Post $post){
 
-        return to_route('posts.index');
+        $data = $request->validate([
+            'title' => 'required',
+            'description' => 'required',
+            'user_id' => 'required'
+        ]);
+
+        $post->update($data = $request->all());
+
+        return to_route('posts.index')->with('success', 'Post updated successfully!');
     }
 
-    public function destroy(){
+    public function destroy($post){
+        $post = Post::find($post);
+        $post->delete();
 
-        return to_route('posts.index');
+        return to_route('posts.index')->with('success', 'Post deleted successfully');
     }
 
 }

@@ -1,5 +1,5 @@
-@extends('layout.app')
-@section('title', 'Posts')
+@extends('layouts.app')
+@section('title', 'Blogs')
 
 @section('content')
 
@@ -25,44 +25,46 @@
         </thead>
         <tbody>
             @foreach ($posts as $post)
-            <tr>
-                <th scope="row">{{ $post->id }}</th>
-                <td>{{ $post->title }}</td>
-                <td>{{ $post->user->name }}</td>
-                <td>{{ $post->created_at }}</td>
-                <td>
+                <tr>
+                    <th scope="row">{{ $post->id }}</th>
+                    <td>{{ $post->title }}</td>
+                    <td>{{ $post->user->name }}</td>
+                    <td>{{ $post->created_at }}</td>
+                    <td>
 
 
-                    <a href="{{ route('posts.show',$post->id) }}" class="btn btn-primary">View</a>
-                    <a href="{{ route('posts.edit', $post->id) }}" class="btn btn-warning">Edit</a>
-                    <form id="deleteForm1" method="POST" action="{{ route('posts.destroy', $post->id) }}" class="d-inline">
-                        @csrf
-                        @method('DELETE')
-                        <button type="button" class="btn btn-danger" onclick="confirmDelete()">Delete</button>
-                    </form>
+                        <a href="{{ route('posts.show', $post->id) }}" class="btn btn-primary">View</a>
+                        <a href="{{ route('posts.edit', $post->id) }}" class="btn btn-warning">Edit</a>
+                        <form id="deleteForm{{ $post->id }}" method="POST"
+                            action="{{ route('posts.destroy', $post->id) }}" class="d-inline">
+                            @csrf
+                            @method('DELETE')
+                            <button type="button" class="btn btn-danger"
+                                onclick="confirmDelete({{ $post->id }})">Delete</button>
+                        </form>
 
-                    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-                    <script>
-                        function confirmDelete() {
-                            Swal.fire({
-                                title: "Are you sure?",
-                                text: "This action cannot be undone!",
-                                icon: "warning",
-                                showCancelButton: true,
-                                confirmButtonText: "Yes, delete it!",
-                                cancelButtonText: "No, cancel",
-                                focusCancel: true // 👈 يخلي Cancel هو الافتراضي
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    document.getElementById('deleteForm1').submit();
-                                }
-                            });
-                        }
-                    </script>
+                        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                        <script>
+                            function confirmDelete(postId) {
+                                Swal.fire({
+                                    title: "Are you sure?",
+                                    text: "This action cannot be undone!",
+                                    icon: "warning",
+                                    showCancelButton: true,
+                                    confirmButtonText: "Yes, delete it!",
+                                    cancelButtonText: "No, cancel",
+                                    focusCancel: true // 👈 يخلي Cancel هو الافتراضي
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        document.getElementById('deleteForm' + postId).submit();
+                                    }
+                                });
+                            }
+                        </script>
 
-                </td>
+                    </td>
 
-            </tr>
+                </tr>
             @endforeach
         </tbody>
     </table>

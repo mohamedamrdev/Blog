@@ -1,5 +1,5 @@
-@extends('layout.app')
-@section('title','View Post')
+@extends('layouts.app')
+@section('title', 'All Posts')
 @section('content')
 
 
@@ -8,9 +8,9 @@
             Post Details
         </div>
         <div class="card-body">
-          <h1>{{ $post->title }}</h1>
-          <p>{{ $post->description }}</p>
-          <P>{{$post->created_at}}</P>
+            <h1>{{ $post->title }}</h1>
+            <p>{{ $post->description }}</p>
+            <P>{{ $post->created_at }}</P>
         </div>
     </div>
 
