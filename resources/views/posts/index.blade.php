@@ -7,10 +7,14 @@
         <div class="text-center">
             <a href="{{ route('posts.create') }}" class="btn btn-success">Create Post</a>
         </div>
-
     </div>
+
     <table class="table container mt-4">
+
+
         <thead>
+
+
             <tr>
                 <th scope="col">ID</th>
                 <th scope="col">Title</th>
@@ -20,15 +24,18 @@
             </tr>
         </thead>
         <tbody>
+            @foreach ($posts as $post)
             <tr>
-                <th scope="row">1</th>
-                <td>John</td>
-                <td>Doe</td>
-                <td>@social</td>
+                <th scope="row">{{ $post->id }}</th>
+                <td>{{ $post->title }}</td>
+                <td>{{ $post->user->name }}</td>
+                <td>{{ $post->created_at }}</td>
                 <td>
-                    <a href="{{ route('posts.show', 1) }}" class="btn btn-primary">View</a>
-                    <a href="{{ route('posts.edit', 1) }}" class="btn btn-warning">Edit</a>
-                    <form id="deleteForm1" method="POST" action="{{ route('posts.destroy', 1) }}" class="d-inline">
+
+
+                    <a href="{{ route('posts.show',$post->id) }}" class="btn btn-primary">View</a>
+                    <a href="{{ route('posts.edit', $post->id) }}" class="btn btn-warning">Edit</a>
+                    <form id="deleteForm1" method="POST" action="{{ route('posts.destroy', $post->id) }}" class="d-inline">
                         @csrf
                         @method('DELETE')
                         <button type="button" class="btn btn-danger" onclick="confirmDelete()">Delete</button>
@@ -54,7 +61,9 @@
                     </script>
 
                 </td>
+
             </tr>
+            @endforeach
         </tbody>
     </table>
 @endsection
